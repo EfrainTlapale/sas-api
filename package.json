@@ -1,0 +1,37 @@
+{
+  "name": "sas-api",
+  "version": "1.0.0",
+  "description": "Api para sistema escolar",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "cors": "^2.7.1",
+    "express": "^4.14.0",
+    "mongoose-unique-validator": "^1.0.2",
+    "body-parser": "^1.15.2",
+    "mongoose": "^4.5.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node_modules/mocha/bin/_mocha --recursive",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EfrainTlapale/sas-api.git"
+  },
+  "keywords": [
+    "API",
+    "NodeJS",
+    "Express",
+    "MongoDB"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EfrainTlapale/sas-api/issues"
+  },
+  "homepage": "https://github.com/EfrainTlapale/sas-api#readme"
+}
