@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var bcrypt = require('bcryptjs');
 
 var userSchema = mongoose.Schema({
   username: {
@@ -28,5 +29,21 @@ var userSchema = mongoose.Schema({
     required: true
   },
 });
+
+userSchema.pre('save', (next) => {
+  var user = this;
+  if (!user.isModified('password')) {
+    return next()
+  }
+
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(user.password, salt, (err, hash)=>{
+      user.password = hash;
+      next();
+    });
+  });
+});
+
+userSchema.plugin(require('mongoose-unique-validator'));
 
 module.exports = mongoose.model('User', userSchema);
