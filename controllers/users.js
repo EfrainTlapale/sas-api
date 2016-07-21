@@ -66,12 +66,13 @@ exports.auth = (req, res) => {
       res.json({ success: false, err: err });
     } else if (user) {
       bcrypt.compare(req.body.password, user.password, (err, isMatch) => {
-        if (err) {
-          res.status(400);
-      res.json({ success: false, err: err });
-        } else {
+        if(isMatch){
+          console.log(isMatch);
           var token = jwt.sign(user, config.st);
-          res.json({ succes: true, token: token });
+          res.json({ success: true, token: token });
+        }else  {
+          res.status(400);
+          res.json({ success: false, err: err });
         }
       });
     }
