@@ -2,7 +2,7 @@ var app = require('./app');
 var mongoose = require('mongoose');
 var config = require('./config');
 
-mongoose.connect(config.db, (err) => {
+mongoose.connect(process.env.MONGODB_URI || config.db, (err) => {
   if (err) {
     console.log(err);
   }
