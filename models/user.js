@@ -27,20 +27,17 @@ var userSchema = mongoose.Schema({
   password: {
     type: String,
     required: true
-  },
+  }
 });
 
-userSchema.pre('save', (next) => {
+userSchema.pre('save', function(next){
   var user = this;
   if (!user.isModified('password')) {
     return next()
   }
-
-  bcrypt.genSalt(10, (err, salt) => {
-    bcrypt.hash(user.password, salt, (err, hash)=>{
-      user.password = hash;
-      next();
-    });
+  bcrypt.hash(user.password, 10, (err, hash)=>{
+    user.password = hash;
+    next();
   });
 });
 
