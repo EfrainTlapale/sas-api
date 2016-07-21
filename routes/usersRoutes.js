@@ -6,8 +6,11 @@ userRouter.route('/usuario')
 
 userRouter.route('/usuario/:id')
   .get(User.get)
-  .put(User.update);
+  .put(User.update)
+  .delete(User.delete);
 
+user.route('/usuario/auth')
+  .post(User.auth);
 
 
 module.exports = userRouter;
