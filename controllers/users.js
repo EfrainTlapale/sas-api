@@ -51,7 +51,7 @@ exports.delete = (req, res) => {
       res.status(400);
       res.json({ success: false, err: err });
     } else {
-      res.json({ success: true, mensaje: 'Usuario eliminado' });
+      res.json({ success: true, message: 'Usuario eliminado' });
     }
   });
 };
