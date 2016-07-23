@@ -17,7 +17,7 @@ var userSchema = mongoose.Schema({
   },
   rol: {
     type: String,
-    enum: ['Director', 'Gerente', 'Auxiliar']
+    enum: ['Admin', 'Director', 'Gerente', 'Auxiliar']
   },
   email: {
     type: String,
@@ -30,12 +30,12 @@ var userSchema = mongoose.Schema({
   }
 });
 
-userSchema.pre('save', function(next){
+userSchema.pre('save', function (next) {
   var user = this;
   if (!user.isModified('password')) {
     return next()
   }
-  bcrypt.hash(user.password, 10, (err, hash)=>{
+  bcrypt.hash(user.password, 10, (err, hash) => {
     user.password = hash;
     next();
   });
