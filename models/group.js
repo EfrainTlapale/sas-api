@@ -12,6 +12,14 @@ var groupSchema = mongoose.Schema({
   }]
 });
 
+groupSchema.methods.addUser = function (userId ,cb) {
+  this.users.push(userId);
+  this.save((err)=>{
+    if(err) throw err;
+    cb();
+  });
+}
+
 groupSchema.plugin(require('mongoose-unique-validator'));
 
 module.exports = mongoose.model('Group', groupSchema);

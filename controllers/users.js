@@ -1,16 +1,32 @@
 var User = require('../models/user');
+var Group = require('../models/group');
 var config = require('../config');
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 
 exports.create = (req, res) => {
+  //Hacer que primero compruebe el grupo y despues cree el usuario
   var user = new User(req.body);
   user.save((err) => {
     if (err) {
       res.status(400);
       res.json({ success: false, err: err });
     } else {
-      res.json({ success: true, user: user });
+      Group.findOne({name: req.body.groupName},(err, group)=>{
+        if(err || !group){
+          res.status(400);
+          res.json({ success: false, err: err });  
+        }else{
+          group.addUser(user._id, (err) => {
+            if(err){
+              res.status(400);
+              res.json({ success: false, err: err }); 
+            }else{
+              res.json({success: true, user: user, group: group});
+            }
+          });
+        }
+      });
     }
   });
 };
@@ -66,11 +82,11 @@ exports.auth = (req, res) => {
       res.json({ success: false, err: err });
     } else if (user) {
       bcrypt.compare(req.body.password, user.password, (err, isMatch) => {
-        if(isMatch){
+        if (isMatch) {
           console.log(isMatch);
           var token = jwt.sign(user, config.st);
           res.json({ success: true, token: token });
-        }else  {
+        } else {
           res.status(400);
           res.json({ success: false, err: err });
         }

@@ -18,6 +18,7 @@ exports.create = (req, res) => {
       group.save((err) => {
         if (err) {
           //HACER QUE BORRE EL USUARIO ANTERIOR SI NO SE GUARDA EL GRUPO
+          User.remove({_id: user._id}, (err)=>{});
           res.status(400);
           res.json({ success: false, err: err });
         } else {
