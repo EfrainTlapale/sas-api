@@ -5,24 +5,24 @@ var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 
 exports.create = (req, res) => {
-  //Hacer que primero compruebe el grupo y despues cree el usuario
-  var user = new User(req.body);
-  user.save((err) => {
-    if (err) {
+
+  Group.findOne({ name: req.body.groupName }, (err, group) => {
+    if (err || !group) {
       res.status(400);
       res.json({ success: false, err: err });
     } else {
-      Group.findOne({name: req.body.groupName},(err, group)=>{
-        if(err || !group){
+      var user = new User(req.body);
+      user.save((err) => {
+        if (err) {
           res.status(400);
-          res.json({ success: false, err: err });  
-        }else{
+          res.json({ success: false, err: err });
+        } else {
           group.addUser(user._id, (err) => {
-            if(err){
+            if (err) {
               res.status(400);
-              res.json({ success: false, err: err }); 
-            }else{
-              res.json({success: true, user: user, group: group});
+              res.json({ success: false, err: err });
+            } else {
+              res.json({ success: true, user: user, group: group });
             }
           });
         }

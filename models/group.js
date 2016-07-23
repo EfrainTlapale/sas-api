@@ -13,7 +13,7 @@ var groupSchema = mongoose.Schema({
 });
 
 groupSchema.methods.addUser = function (userId ,cb) {
-  this.users.push(userId);
+  this.users.addToSet(userId);
   this.save((err)=>{
     if(err) throw err;
     cb();
